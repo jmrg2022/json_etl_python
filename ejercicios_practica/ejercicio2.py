@@ -12,6 +12,16 @@ import requests
 
 import matplotlib.pyplot as plt
 
+def bar_plot(lista_userId,lista_completed):
+    
+    fig = plt.figure()
+    fig.suptitle('Títulos completados por usuario', fontsize=16)
+    ax = fig.add_subplot()
+
+    ax.bar(lista_userId, lista_completed, label='Cantidad de títulos')
+    ax.set_facecolor('whitesmoke')
+    ax.legend()
+    plt.show()
 
 if __name__ == '__main__':
     print("Bienvenidos a otra clase de Inove con Python")
@@ -45,5 +55,25 @@ if __name__ == '__main__':
     # para imprimir cuantos títulos completó cada usuario
     # y verifique si los primeros usuarios (mirando la página a ojo)
     # los datos recolectados son correctos.
+
+     # Crear el gráfico
+
+    response = requests.get(url)
+    data = json.loads(response.text)
+    data = response.json()
+
+    lista_userId=[1,2,3,4,5,6,7,8,9,10]
+    lista_completed=[]
+
+    for i in lista_userId:
+        suma = 0
+        for user in data:
+            if user['userId'] == i and user['completed'] == True:
+                suma = suma + 1
+        lista_completed.append(suma)
+        
+    #print(lista_completed)        
+
+    bar_plot(lista_userId,lista_completed)
 
     print("terminamos")
